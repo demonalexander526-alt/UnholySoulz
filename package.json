@@ -1,0 +1,10 @@
+{
+  "name": "unholysoulz",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static UnholySoulz landing pages",
+  "scripts": {
+    "start": "echo \"No build step required for this static site.\"",
+    "build": "echo \"No build step required.\""
+  }
+}
