@@ -1,8 +1,5 @@
 [build]
-  publish = "./index.html"
-
-[dev]
-  publish = "./index.html"
+  publish = "."
 
 [[redirects]]
   from = "/*"

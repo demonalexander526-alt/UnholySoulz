@@ -27,6 +27,29 @@ function createToast(message) {
     }, 2800);
 }
 
+function showSrtAvailabilityConfirm() {
+    const cardSources = Array.from(document.querySelectorAll('.video-card')).flatMap(card => {
+        const srcs = [];
+        const dataSrc = card.dataset.src;
+        if (dataSrc) srcs.push(dataSrc);
+        const nestedSource = card.querySelector('source')?.getAttribute('src');
+        if (nestedSource && nestedSource !== dataSrc) srcs.push(nestedSource);
+        return srcs;
+    });
+
+    const heroSource = document.querySelector('.hero-video source')?.getAttribute('src');
+    const sources = Array.from(new Set([...cardSources, heroSource].filter(Boolean)));
+    const message = sources.length > 0
+        ? `Current SRT files available in this page:\n\n${sources.map(src => `• ${src}`).join('\n')}\n\nClick OK to confirm.`
+        : 'No SRT video files are currently available on this page.';
+
+    if (window.confirm(message)) {
+        createToast('SRT availability confirmed.');
+    } else {
+        createToast('SRT availability dismissed.');
+    }
+}
+
 function animateValue(element, targetValue) {
     const numeric = Number(targetValue.toString().replace(/[^0-9]/g, ''));
     if (!numeric) {
@@ -109,6 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     window.addEventListener('scroll', updateNavHighlight, { passive: true });
     updateNavHighlight();
+
+    if (document.querySelector('.video-grid')) {
+        showSrtAvailabilityConfirm();
+    }
 
     const recruitStats = [
         { title: 'Active Recruits', value: '214', note: 'Ready for matches' },
